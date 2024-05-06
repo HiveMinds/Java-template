@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("PMD.ShortClassName")
 public final class Main {
 
-  /** Create a proper logger for non-error output messages. */
+  /** Can be used to output logs towards logging/Generic.log. */
   private static final Logger LOGGER = LoggerFactory.getLogger("Generic");
 
   private Main() {
@@ -20,14 +20,17 @@ public final class Main {
    * The main method is the entry point for the doctestbot application.
    *
    * @param args The command-line arguments provided when running the application.
+   * @throws BicycleWithoutWheels
    */
-  public static void main(final String[] args) throws FileNotFoundException {
-    LOGGER.info("Starting your code...");
+  public static void main(final String[] args) throws FileNotFoundException, BicycleWithoutWheels {
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info("Starting your code...");
+    }
 
-    System.out.println("Hello world.");
-    System.out.println(writeHelloUniverse());
-
-    LOGGER.info("doctestbot completed.");
+    new Bicycle(3);
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info("Code completed.");
+    }
   }
 
   /**

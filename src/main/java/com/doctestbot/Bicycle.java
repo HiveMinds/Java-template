@@ -1,7 +1,12 @@
 package com.doctestbot;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /** This class represents a Bicycle object with a varying number of wheels. */
 public class Bicycle {
+  /** Can be used to output logs towards logging/Bicycle.log. */
+  private static final Logger LOGGER = LoggerFactory.getLogger("Bicycle");
 
   /** Allows setting the number of wheels in the bicycle. */
   private final int nrOfWheels;
@@ -13,6 +18,10 @@ public class Bicycle {
    * @throws BicycleWithoutWheels
    */
   public Bicycle(final int nrOfWheelsArg) throws BicycleWithoutWheels {
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info("Created bicycle with:" + nrOfWheelsArg + " wheels.");
+    }
+
     if (nrOfWheelsArg == 0) {
       throw new BicycleWithoutWheels("Tried to create a bicycle without wheels.");
     }

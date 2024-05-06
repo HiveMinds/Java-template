@@ -6,15 +6,15 @@
 
     <rule ref="category/plsql/codestyle.xml/LineLength">
         <properties>
-            <property name="maxLineLength" value="100" />
+            <property name="maxLineLength" value="120" />
             <property name="eachLine" value="false" />
         </properties>
     </rule>
 
     <rule ref="category/java/documentation.xml/CommentSize">
         <properties>
-            <property name="maxLines" value="80" />
-            <property name="maxLineLength" value="100" />
+            <property name="maxLines" value="60" />
+            <property name="maxLineLength" value="120" />
         </properties>
     </rule>
 
