@@ -1,0 +1,25 @@
+<ruleset name="All Java Rules minus LoosePackageCoupling"
+    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+    <description>Every Java Rule in PMD minus LoosePackageCoupling</description>
+
+
+    <rule ref="category/plsql/codestyle.xml/LineLength">
+        <properties>
+            <property name="maxLineLength" value="100" />
+            <property name="eachLine" value="false" />
+        </properties>
+    </rule>
+
+    <rule ref="category/java/bestpractices.xml" />
+    <rule ref="category/java/codestyle.xml" />
+    <rule ref="category/java/design.xml">
+        <exclude name="LoosePackageCoupling"/>
+    </rule>
+    <rule ref="category/java/documentation.xml" />
+    <rule ref="category/java/errorprone.xml" />
+    <rule ref="category/java/multithreading.xml" />
+    <rule ref="category/java/performance.xml" />
+    <rule ref="category/java/security.xml" />
+</ruleset>

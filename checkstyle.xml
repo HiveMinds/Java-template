@@ -1,0 +1,115 @@
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+
+        <module name="SuppressionFilter">
+          <property name="file" value="suppressions.xml"/>
+          <property name="optional" value="false"/>
+        </module>
+
+        <!-- Formatting Check: Enforces a maximum line length of 80 characters -->
+        <module name="LineLength">
+            <property name="max" value="100"/>
+        </module>
+
+        <!-- Code Structure Check: Limits the length of a file to 1000 lines -->
+        <module name="FileLength">
+            <property name="max" value="1000"/>
+        </module>
+
+        <!-- Code Structure Check: Enforces Javadoc comments for package-info.java files -->
+        <module name="JavadocPackage"/>
+
+    <!-- TreeWalker Module: Performs checks on the abstract syntax tree -->
+    <module name="TreeWalker">
+
+
+
+
+        <!-- Formatting Check: Ensures consistent indentation -->
+        <!-- <module name="Indentation"> -->
+            <!-- <property name="basicOffset" value="2"/> -->
+            <!-- <property name="braceAdjustment" value="0"/> -->
+            <!-- <property name="caseIndent" value="0"/> -->
+            <!-- <property name="throwsIndent" value="2"/> -->
+        <!-- </module> -->
+
+        <!-- Formatting Check: Enforces right curly brace placement -->
+        <!-- <module name="RightCurly"> -->
+            <!-- <property name="option" value="alone"/> -->
+        <!-- </module> -->
+
+        <!-- Formatting Check: Enforces whitespace around certain tokens -->
+        <module name="WhitespaceAround">
+            <property name="allowEmptyConstructors" value="true"/>
+            <property name="allowEmptyMethods" value="true"/>
+        </module>
+
+        <!-- Code Structure Check: Disallows empty blocks -->
+        <module name="EmptyBlock">
+            <property name="option" value="text"/>
+        </module>
+
+        <!-- Code Structure Check: Enforces the use of braces for control statements -->
+        <module name="NeedBraces"/>
+
+        <!-- Formatting Check: Enforces consistent whitespace usage -->
+        <module name="GenericWhitespace"/>
+
+
+        <!-- Code Structure Check: Checks for redundant import statements -->
+        <module name="RedundantImport"/>
+
+        <!-- Code Structure Check: Disallows star import statements -->
+        <module name="AvoidStarImport"/>
+
+        <!-- Code Structure Check: Checks the placement of left curly braces -->
+        <module name="LeftCurly"></module>
+
+        <!-- Naming Convention Check: Enforces naming conventions for local final variables -->
+        <module name="LocalFinalVariableName"/>
+
+        <!-- Naming Convention Check: Enforces naming conventions for local variables -->
+        <module name="LocalVariableName"/>
+
+        <!-- Naming Convention Check: Enforces naming conventions for member variables -->
+        <module name="MemberName"/>
+
+        <!-- Naming Convention Check: Enforces naming conventions for method names -->
+        <module name="MethodName"/>
+
+        <!-- Naming Convention Check: Enforces naming conventions for package names -->
+        <module name="PackageName"/>
+
+        <!-- Naming Convention Check: Enforces naming conventions for method parameters -->
+        <module name="ParameterName"/>
+
+        <!-- Naming Convention Check: Enforces naming conventions for static variables -->
+        <module name="StaticVariableName"/>
+
+        <!-- Naming Convention Check: Enforces naming conventions for type names (classes, interfaces, enums, etc.) -->
+        <module name="TypeName"/>
+
+        <!-- Code Structure Check: Disallows unused import statements -->
+        <module name="UnusedImports"/>
+
+        <!-- Code Structure Check: Disallows unused private fields -->
+        <!-- <module name="UnusedPrivateField"/> -->
+
+        <!-- Code Structure Check: Enforces Javadoc comments for methods and classes -->
+        <module name="JavadocMethod"/>
+        <module name="JavadocType"/>
+
+        <!-- Code Structure Check: Disallows trailing whitespace -->
+        <module name="NoWhitespaceAfter"/>
+
+        <!-- Code Structure Check: Disallows whitespace before a semicolon -->
+        <module name="NoWhitespaceBefore"/>
+
+        <!-- Add: // CHECKSTYLE:OFF to the top of the file for which you want to skip checkstyle checks. -->
+        <module name="SuppressionCommentFilter"/>
+    </module>
+
+</module>

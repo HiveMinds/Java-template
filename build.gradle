@@ -1,0 +1,179 @@
+plugins {
+    id 'java'
+    // Create a "fat" jar with all dependencies included.
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+
+    // Auto update the dependencies in this build.gradle file. To update, run:
+    //gradle dependencyUpdates
+    id 'com.github.ben-manes.versions' version '0.51.0'
+
+    // Allow using antler.
+    id 'antlr'
+
+    // Run code coverage.
+    id 'jacoco'
+}
+
+// Ensure the main file is created and that is is executable with:
+// java -jar build/libs/template-java-project.jar
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.doctestbot.Main'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+// This is for the umldoclet that auto-generates PlantUML diagrams of each class of each .java
+// file and embeds them in the HTML documentation.
+configurations {
+    umlDoclet
+}
+
+
+dependencies {
+
+    // Support running unit tests.
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+
+    // Support default CLI tools.
+    implementation 'commons-cli:commons-cli:1.6.0'
+
+    // Allow logging to file.
+    implementation 'org.slf4j:slf4j-api:2.1.0-alpha1'
+    implementation 'ch.qos.logback:logback-classic:1.4.14'
+
+    // This is for the umldoclet that auto-generates PlantUML diagrams of each class of each .java
+    // file and embeds them in the HTML documentation.
+    umlDoclet "nl.talsmasoftware:umldoclet:2.1.1"
+
+    // Parse json files.
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'
+    // Parse json files another way.
+    implementation group: 'org.json', name: 'json', version: '20231013' // You can specify a different version if needed
+
+    // Create java GUI
+    implementation 'com.googlecode.lanterna:lanterna:3.2.0-alpha1'
+
+
+    // Show progress bar in CLI.
+    implementation 'org.jline:jline:3.25.1' // Use the latest version
+
+    // Include support for Google Bard API.
+    implementation 'com.pkslow:google-bard:0.3.6'
+
+    // Include support for ANTLR runtime dependency.
+    // TODO: determine why updating to 4.13.1 yields error messages.
+    implementation 'org.antlr:antlr4-runtime:4.7.2'
+
+    }
+
+
+// Auto generate PlantUML files of all the UML javadoc in each .java file, and add them in the HTML
+// documentation.
+javadoc {
+    source = sourceSets.main.allJava
+
+    doLast {
+        // Create the output directory for PlantUML diagrams
+        File plantUmlOutputDir = new File(javadoc.destinationDir, 'com/doctestbot/')
+        plantUmlOutputDir.mkdirs()
+
+        // Set the source directory that contains the .java files.
+        def sourceDir = file("${project.projectDir}/src/main/java/com/doctestbot")
+
+        // Recursively loop over all .java files in the source directory.
+        sourceDir.eachFileRecurse { javaFile ->
+            if (javaFile.isFile() && javaFile.name.endsWith('.java')) {
+
+                // Get the file directory and ensure it is created.
+                def outputDir = "${plantUmlOutputDir}/${javaFile.parentFile.path.replace(sourceDir.path, '').replaceAll('/', '')}"
+                def outputDirFile = file(outputDir)
+                outputDirFile.mkdirs()
+
+                // Generate the command that is used to generate the PlantUML files from the java
+                // docstrings.
+                def plantumlCmd = "plantuml -o ${outputDirFile} -tsvg ${javaFile}"
+
+                 try {
+                    // Execute the command to generate the javadoc PlantUML file.
+                    def process = plantumlCmd.execute()
+                    process.waitFor()
+                    if (process.exitValue() == 0) {
+                        // If a PlantUML content is detected in the Javadoc, and the image is
+                        // created, let the user know it was successful.
+                        println "Created PlantUML for:${javaFile}"
+                    }
+                } catch (Exception e) {
+                    if (e.message.contains("Warning: no image in") || e.message.contains("No diagram found")) {
+                        // If there was no PlantUML in the javadoc for that file, it is ok, do not
+                        // print anything.
+                        println "No diagram found in ${javaFile}: ${e.message}"
+                    } else {
+                        // If any other exception occurred, raise an error.
+                        throw new GradleException("An error occurred while generating PlantUML diagrams: ${e.message}")
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+// This is for the umldoclet that auto-generates PlantUML diagrams of each class of each .java
+// file and embeds them in the HTML documentation.
+javadoc {
+    source = sourceSets.main.allJava
+    options.docletpath = configurations.umlDoclet.files.asType(List)
+    options.doclet = "nl.talsmasoftware.umldoclet.UMLDoclet"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        // If a test asserts an error is thrown, the response of the code, e.g. "don't use --something
+        // for this CLI", is shown in the standardStreams. You do not want to see this every build.
+        showStandardStreams = false
+    }
+}
+
+// Ensure the main file of the project is ran after the build is compiled, if
+// the user runs task: gradle build runMain
+task runMain(type: JavaExec) {
+    description 'Runs the Main class after the build.'
+    mainClass = 'com.doctestbot.Main'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+// Ensure a code coverage report is build in: build/reports/jacoco
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('reports/jacoco')
+    }
+}
+
+check.dependsOn jacocoTestReport
+
+
+// Add this task to create a runnable JAR
+task createRunnableJar(type: Jar) {
+    from sourceSets.main.output
+    manifest {
+        attributes 'Main-Class': 'com.doctestbot.Main'
+    }
+    archiveClassifier = 'runnable'
+}
+
+// Create a "fat" jar with all dependencies included.
+shadowJar {
+    mergeServiceFiles()
+}
+task setWrapperType(type: Wrapper) {
+    gradleVersion = '8.6'
+}
