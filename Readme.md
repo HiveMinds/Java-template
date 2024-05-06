@@ -1,7 +1,8 @@
-# Auto Generate Documentation and Tests
+# Java Template
 
-[![Travis Build Status](https://img.shields.io/travis/a-t-0/shell_unit_testing_template.svg)](https://travis-ci.org/a-t-0/shell_unit_testing_template)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+Contains strict PMD linting and pre-commit settings, can be used as a starting
+template for a Java project.
 
 ## Usage
 

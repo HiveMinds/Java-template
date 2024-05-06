@@ -74,10 +74,10 @@ repos:
     hooks:
       - id: pmd
         # Set the path  your pmd configuration file.
-        args: ["-R", "pmd.xml"]
-        exclude: '^(?!.*ModifyPython\.java$)(src/main/java/com/doctestbot/parse_with_comments/|src/main/java/com/doctestbot/parse_without_comments/).*$'
+        args: ["--cache", ".pmd_cache", "-R", "pmd.xml"]
+        exclude: '^(?!.*ModifyPython\.java$)(src/main/java/com/doctestbot/some_folder/|src/main/java/com/doctestbot/another_folder/).*$'
       - id: cpd
-        exclude: '^(?!.*ModifyPython\.java$)(src/main/java/com/doctestbot/parse_with_comments/|src/main/java/com/doctestbot/parse_without_comments/).*$'
+        exclude: '^(?!.*ModifyPython\.java$)(src/main/java/com/doctestbot/some_folder/|src/main/java/com/doctestbot/another_folder/).*$'
       - id: checkstyle
         # Set the path  your Checkstyle configuration file.
         args: ["-c", "checkstyle.xml"]

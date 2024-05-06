@@ -10,8 +10,12 @@ public class Bicycle {
    * Default constructor for the Bicycle class.
    *
    * @param nrOfWheelsArg how many wheels the bicycle will have.
+   * @throws BicycleWithoutWheels
    */
-  public Bicycle(final int nrOfWheelsArg) {
+  public Bicycle(final int nrOfWheelsArg) throws BicycleWithoutWheels {
+    if (nrOfWheelsArg == 0) {
+      throw new BicycleWithoutWheels("Tried to create a bicycle without wheels.");
+    }
     nrOfWheels = nrOfWheelsArg;
   }
 

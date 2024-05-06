@@ -43,3 +43,6 @@ hs_err_pid*
 # note: some other rules could/should be in your HOME .gitignore_global file
 # *~
 # .DS_Store
+
+# Exclude the pmd cache file from being synced.
+.pmd_cache

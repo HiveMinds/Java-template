@@ -9,7 +9,7 @@
           <property name="optional" value="false"/>
         </module>
 
-        <!-- Formatting Check: Enforces a maximum line length of 80 characters -->
+        <!-- Formatting Check: Enforces a maximum line length of 100 characters -->
         <module name="LineLength">
             <property name="max" value="100"/>
         </module>
@@ -24,22 +24,6 @@
 
     <!-- TreeWalker Module: Performs checks on the abstract syntax tree -->
     <module name="TreeWalker">
-
-
-
-
-        <!-- Formatting Check: Ensures consistent indentation -->
-        <!-- <module name="Indentation"> -->
-            <!-- <property name="basicOffset" value="2"/> -->
-            <!-- <property name="braceAdjustment" value="0"/> -->
-            <!-- <property name="caseIndent" value="0"/> -->
-            <!-- <property name="throwsIndent" value="2"/> -->
-        <!-- </module> -->
-
-        <!-- Formatting Check: Enforces right curly brace placement -->
-        <!-- <module name="RightCurly"> -->
-            <!-- <property name="option" value="alone"/> -->
-        <!-- </module> -->
 
         <!-- Formatting Check: Enforces whitespace around certain tokens -->
         <module name="WhitespaceAround">
